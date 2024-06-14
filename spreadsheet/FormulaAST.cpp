@@ -143,18 +143,20 @@ namespace ASTImpl {
 
             [[nodiscard]] double Evaluate(const SheetInterface& sheet) const override {
                 double res = 0.;
+                double evaluated_lhs = lhs_->Evaluate(sheet);
+                double evaluated_rhs = rhs_->Evaluate(sheet);
                 switch (type_) {
                     case Add:
-                        res = lhs_->Evaluate(sheet) + rhs_->Evaluate(sheet);
+                        res = evaluated_lhs + evaluated_rhs;
                         break;
                     case Subtract:
-                        res = lhs_->Evaluate(sheet) - rhs_->Evaluate(sheet);
+                        res = evaluated_lhs - evaluated_rhs;
                         break;
                     case Multiply:
-                        res = lhs_->Evaluate(sheet) * rhs_->Evaluate(sheet);
+                        res = evaluated_lhs * evaluated_rhs;
                         break;
                     case Divide:
-                        res = lhs_->Evaluate(sheet) / rhs_->Evaluate(sheet);
+                        res = evaluated_lhs / evaluated_rhs;
                         break;
                     default:
                         throw FormulaError(FormulaError::Category::Arithmetic);
